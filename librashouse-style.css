@@ -117,15 +117,17 @@ nav a:hover { color: var(--teal-dark); background: var(--teal-light); }
 
 /* ─── HERO ─── */
 .hero {
-  background: linear-gradient(135deg, rgba(224,247,247,0.24) 0%, rgba(255,249,230,0.24) 50%, rgba(252,232,232,0.24) 100%),
-    url('../faceslibrashouse2.jpeg');
-  background-blend-mode: lighten;
+  background: linear-gradient(135deg, rgba(224,247,247,0.25) 0%, rgba(255,249,230,0.15) 50%, rgba(252,232,232,0.1) 100%),
+    url('elasbackground22.jpg');
+  background-blend-mode: overlay;
   background-size: cover;
-  background-position: center center;
+  background-position: center 40%;
   background-repeat: no-repeat;
+  background-attachment: fixed;
   padding: 100px 0 0;
   position: relative; overflow: hidden; min-height: 92vh;
-  display: flex; align-items: center;
+  display: flex; align-items: center; will-change: background-position;
+  contain: layout;
 }
 
 /* Floating shapes */
@@ -759,13 +761,13 @@ video { width: 100%; display: block; background: var(--ink); }
 
 /* ─── RESPONSIVE ─── */
 @media (max-width: 1024px) {
+  .hero { background-position: center 35%; }
   .about-grid { grid-template-columns: repeat(2, 1fr); }
   .features-inner { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 900px) {
-  .hero-inner { grid-template-columns: 1fr; gap: 28px; text-align: center; }
-  .hero { padding-top: 80px; }
+  .hero { padding-top: 80px; background-attachment: scroll; background-position: center 30%; background-size: cover; }
   .hero-text p { max-width: 100%; margin-left: auto; margin-right: auto; }
   .hero-buttons { justify-content: center; }
   .hero-trust { justify-content: center; }
@@ -800,26 +802,7 @@ video { width: 100%; display: block; background: var(--ink); }
 
 @media (max-width: 600px) {
   .section { padding: 64px 0; }
-  .about-grid { grid-template-columns: 1fr; }
-  .features-inner { grid-template-columns: 1fr; }
-  .hero-img-wrap { max-width: 280px; height: 320px; }
-  .instructor-img-wrap img { max-width: 280px; height: 360px; }
-  .instructor-badge { left: 0; }
-  .footer-bottom { flex-direction: column; text-align: center; }
-  .enroll-form { padding: 24px 20px; }
-  .instructor-stats { gap: 16px; flex-wrap: wrap; }
-  .insta-grid { grid-template-columns: 1fr; }
-  .hero-buttons { flex-direction: column; align-items: center; }
-  .hero-trust { flex-direction: column; gap: 12px; }
-  .trust-divider { width: 36px; height: 1px; }
-  .container { padding: 0 20px; }
-  .header-inner { padding: 0 20px; height: 64px; }
-  .logo img { height: 48px; width: 48px; }
-  .logo-text { font-size: 18px; }
-  .menu-toggle { width: 36px; }
-  .menu-toggle span { width: 22px; }
-  .hero { padding-top: 60px; min-height: 100vh; }
-  .hero-text h1 { font-size: clamp(2rem, 8vw, 3rem); }
+  .hero { padding-top: 60px; min-height: 100vh; background-attachment: scroll; background-position: center 25%; background-size: 130%; }
   .hero-badge { font-size: 12px; padding: 6px 14px; }
   .section-title { font-size: clamp(1.8rem, 6vw, 2.8rem); }
   .section-subtitle { font-size: 16px; }
@@ -838,8 +821,7 @@ video { width: 100%; display: block; background: var(--ink); }
 @media (max-width: 480px) {
   body { font-size: 16px; }
   .container { padding: 0 16px; }
-  .header-inner { padding: 0 16px; }
-  .hero-inner { padding: 0 16px; gap: 24px; }
+  .hero { background-attachment: scroll; background-size: 140%; background-position: center 30%; }
   .hero-text h1 { font-size: clamp(1.8rem, 9vw, 2.8rem); }
   .hero-badge { font-size: 11px; padding: 5px 12px; }
   .section { padding: 48px 0; }
