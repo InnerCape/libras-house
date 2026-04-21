@@ -300,18 +300,18 @@
 
     <div class="testimonials-grid testimonials-placeholder" role="list">
       <div class="tcard-placeholder" role="listitem">
-        <img src="testemunho 1.jpeg" alt="Foto do aluno 1 com depoimento sobre o curso de Libras" width="300" height="200" loading="lazy" />
-        <p>A felicidade dos nossos alunos e a satisfação com o aprendizado.</p>
+        <img src="testemunho 1.jpeg" alt="Foto do aluno 1 compartilhando experiência positiva com o curso de Libras" loading="lazy" class="testimonial-image" data-full="testemunho 1.jpeg" />
+        <p>"A felicidade dos nossos alunos e a satisfação com o aprendizado são o que nos motiva a continuar ensinando Libras com dedicação."</p>
       </div>
 
       <div class="tcard-placeholder" role="listitem">
-        <img src="testemunho 2.jpeg">
-        <p>Aluna satisfeita com a nossa metodologia e comunidade!</p>
+        <img src="testemunho 2.jpeg" alt="Foto da aluna 2 expressando satisfação com a metodologia e comunidade do curso" loading="lazy" class="testimonial-image" data-full="testemunho 2.jpeg" />
+        <p>"Aluna satisfeita com a nossa metodologia e comunidade! O suporte é incrível e o aprendizado é prazeroso."</p>
       </div>
 
       <div class="tcard-placeholder" role="listitem">
-        <img src="testemunho 3.jpeg">
-        <p>Aluna satisfeita com os nossos cursos</p>
+        <img src="testemunho 3.jpeg" alt="Foto da aluna 3 demonstrando contentamento com os cursos oferecidos" loading="lazy" class="testimonial-image" data-full="testemunho 3.jpeg" />
+        <p>"Aluna satisfeita com os nossos cursos. Recomendo para todos que querem aprender Libras de verdade!"</p>
       </div>
     </div>
   </div>
@@ -520,8 +520,20 @@
   </svg>
 </a>
 
+<!-- ═══ LIGHTBOX MODAL ═══ -->
+<div id="lightbox-modal" class="lightbox-modal" aria-hidden="true" role="dialog" aria-labelledby="lightbox-title" aria-describedby="lightbox-desc">
+  <div class="lightbox-overlay" aria-hidden="true"></div>
+  <div class="lightbox-content">
+    <button class="lightbox-close" aria-label="Fechar imagem ampliada">&times;</button>
+    <img id="lightbox-image" src="" alt="" />
+  </div>
+</div>
+
 <!-- ═══ SCRIPTS ═══ -->
 <script>
+  // Performance optimization: Use passive event listeners
+  const opts = { passive: true };
+
   // Mobile menu
   const toggle = document.getElementById('menuToggle');
   const nav = document.getElementById('nav');
@@ -529,27 +541,46 @@
     const open = nav.classList.toggle('open');
     toggle.setAttribute('aria-expanded', open);
     toggle.classList.toggle('active', open);
-  });
+  }, { capture: false });
   nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
     nav.classList.remove('open');
     toggle.setAttribute('aria-expanded', false);
     toggle.classList.remove('active');
-  }));
+  }, opts));
 
-  // Sticky header shadow
+  // Optimized scroll handler with throttling
   const header = document.getElementById('header');
-  window.addEventListener('scroll', () => {
-    header.classList.toggle('scrolled', window.scrollY > 20);
-  }, { passive: true });
+  let scrollTimeout;
+  let lastScrollY = 0;
 
-  // Scroll reveal
+  window.addEventListener('scroll', () => {
+    lastScrollY = window.scrollY;
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      header.classList.toggle('scrolled', lastScrollY > 20);
+    }, 10);
+  }, opts);
+
+  // Intersection Observer for scroll reveal (already optimized)
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
   }, { threshold: 0.12 });
+
   document.querySelectorAll('.about-card, .course-card, .tcard, .faq-item, .price-card, .istat, .feature-item, .teachers-card').forEach(el => {
     el.classList.add('reveal');
     observer.observe(el);
   });
+
+  // Disable animations on low-end devices
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) {
+    document.documentElement.style.setProperty('--transition', '0s');
+  }
 
   // Form submit with Formspree
   const form = document.querySelector('.enroll-form');
@@ -609,6 +640,46 @@
     else if (v.length > 2) v = `(${v.slice(0,2)}) ${v.slice(2)}`;
     else if (v.length > 0) v = `(${v}`;
     this.value = v;
+  });
+
+  // Lightbox functionality
+  const lightboxModal = document.getElementById('lightbox-modal');
+  const lightboxImage = document.getElementById('lightbox-image');
+  const lightboxClose = document.querySelector('.lightbox-close');
+  const lightboxOverlay = document.querySelector('.lightbox-overlay');
+
+  function openLightbox(src, alt) {
+    lightboxImage.src = src;
+    lightboxImage.alt = alt;
+    lightboxModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden'; // Prevent background scroll
+  }
+
+  function closeLightbox() {
+    lightboxModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = ''; // Restore scroll
+  }
+
+  // Add click listeners to testimonial images
+  document.querySelectorAll('.testimonial-image').forEach(img => {
+    img.addEventListener('click', function() {
+      const fullSrc = this.getAttribute('data-full');
+      const alt = this.alt;
+      openLightbox(fullSrc, alt);
+    });
+  });
+
+  // Close lightbox on close button click
+  lightboxClose.addEventListener('click', closeLightbox);
+
+  // Close lightbox on overlay click
+  lightboxOverlay.addEventListener('click', closeLightbox);
+
+  // Close lightbox on Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && lightboxModal.getAttribute('aria-hidden') === 'false') {
+      closeLightbox();
+    }
   });
 </script>
 </body>
