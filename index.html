@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
   <!-- SEO Primary -->
   <title>Libras House — Cursos de Libras com a Manu | Do Básico ao Avançado</title>
@@ -68,6 +68,7 @@
       <span></span><span></span><span></span>
     </button>
 
+    <div class="nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
     <nav id="nav" role="navigation" aria-label="Navegação principal">
       <a href="#inicio">Início</a>
       <a href="#sobre">Sobre</a>
@@ -436,11 +437,11 @@
         </div>
         <div class="form-group">
           <label for="email">E-mail <span aria-hidden="true">*</span></label>
-          <input id="email" name="email" type="email" placeholder="seu@email.com.br" required autocomplete="email" />
+          <input id="email" name="email" type="email" inputmode="email" placeholder="seu@email.com.br" required autocomplete="email" />
         </div>
         <div class="form-group">
           <label for="whatsapp">WhatsApp</label>
-          <input id="whatsapp" name="whatsapp" type="tel" placeholder="(83) 99999-0000" autocomplete="tel" />
+          <input id="whatsapp" name="whatsapp" type="tel" inputmode="tel" placeholder="(83) 99999-0000" autocomplete="tel" />
         </div>
         <div class="form-group">
           <label for="objetivo">Objetivo principal</label>
@@ -543,19 +544,48 @@
   // Performance optimization: Use passive event listeners
   const opts = { passive: true };
 
-  // Mobile menu
+  // Mobile menu with backdrop and scroll lock
   const toggle = document.getElementById('menuToggle');
   const nav = document.getElementById('nav');
-  toggle.addEventListener('click', () => {
-    const open = nav.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', open);
-    toggle.classList.toggle('active', open);
-  }, { capture: false });
-  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  const backdrop = document.getElementById('navBackdrop');
+  let scrollY = 0;
+
+  function openMenu() {
+    scrollY = window.scrollY;
+    nav.classList.add('open');
+    backdrop.classList.add('open');
+    toggle.setAttribute('aria-expanded', true);
+    toggle.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = '100%';
+  }
+
+  function closeMenu() {
     nav.classList.remove('open');
+    backdrop.classList.remove('open');
     toggle.setAttribute('aria-expanded', false);
     toggle.classList.remove('active');
-  }, opts));
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    window.scrollTo(0, scrollY);
+  }
+
+  toggle.addEventListener('click', () => {
+    if (nav.classList.contains('open')) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu, opts));
+  backdrop.addEventListener('click', closeMenu);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && nav.classList.contains('open')) closeMenu();
+  });
 
   // Optimized scroll handler with throttling
   const header = document.getElementById('header');

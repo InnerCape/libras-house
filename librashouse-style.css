@@ -50,10 +50,60 @@ body {
   line-height: 1.8;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
 }
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 button, input, select { font-family: var(--font-body); }
+
+/* Improve touch targets globally */
+button, a, input, select, summary, .menu-toggle, .lightbox-close {
+  touch-action: manipulation;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Disable hover effects on touch devices to prevent sticky states */
+@media (hover: none) {
+  .about-card:hover,
+  .course-card:hover,
+  .tcard:hover,
+  .tcard-placeholder:hover,
+  .feature-item:hover,
+  .insta-item:hover,
+  .offer-card:hover,
+  .price-card:hover,
+  .teachers-card:hover,
+  .instructor-img-wrap img:hover {
+    transform: none !important;
+    box-shadow: var(--shadow-sm) !important;
+  }
+  .tcard-placeholder:hover img {
+    transform: none !important;
+  }
+  .insta-item:hover .insta-overlay {
+    opacity: 0 !important;
+  }
+  .btn:hover, .btn-hero-primary:hover, .btn-primary:hover, .btn-submit:hover,
+  .btn-course:hover, .btn-course-featured:hover, .btn-offer-primary:hover, .btn-offer-secondary:hover {
+    transform: none !important;
+  }
+  .whatsapp-float:hover {
+    transform: none !important;
+  }
+}
+
+/* Safe area insets for notched devices */
+@supports (padding: max(0px)) {
+  .container { padding-left: max(28px, env(safe-area-inset-left)); padding-right: max(28px, env(safe-area-inset-right)); }
+  .header-inner { padding-left: max(28px, env(safe-area-inset-left)); padding-right: max(28px, env(safe-area-inset-right)); }
+  .features-bar { padding-left: max(28px, env(safe-area-inset-left)); padding-right: max(28px, env(safe-area-inset-right)); }
+  .footer { padding-left: max(28px, env(safe-area-inset-left)); padding-right: max(28px, env(safe-area-inset-right)); }
+  .whatsapp-float {
+    right: max(22px, env(safe-area-inset-right));
+    bottom: max(22px, env(safe-area-inset-bottom));
+  }
+}
 
 /* ─── CONTAINER ─── */
 .container { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
@@ -105,19 +155,38 @@ nav a:hover { color: var(--teal-dark); background: var(--teal-light); }
 .menu-toggle {
   display: none; flex-direction: column; gap: 4px;
   background: none; border: none; cursor: pointer;
-  padding: 8px; width: 44px; height: 44px;
+  padding: 8px; width: 48px; height: 48px;
   border-radius: var(--radius-sm);
   transition: background var(--transition);
+  align-items: center;
+  justify-content: center;
 }
 .menu-toggle:hover { background: var(--teal-light); }
 .menu-toggle span {
-  display: block; width: 24px; height: 2px; background: var(--ink);
+  display: block; width: 24px; height: 2.5px; background: var(--ink);
   border-radius: 2px; transition: all 0.3s ease; transform-origin: center;
   margin: 0 auto;
 }
 .menu-toggle.active span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
 .menu-toggle.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
 .menu-toggle.active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* Mobile menu backdrop */
+.nav-backdrop {
+  display: none;
+  position: fixed;
+  inset: 72px 0 0 0;
+  background: rgba(26,35,50,0.35);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity var(--transition);
+  overscroll-behavior: contain;
+}
+.nav-backdrop.open {
+  display: block;
+  opacity: 1;
+}
 
 /* ─── HERO ─── */
 .hero {
@@ -128,10 +197,13 @@ nav a:hover { color: var(--teal-dark); background: var(--teal-light); }
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  padding: 100px 0 0;
+  padding: 100px 0 60px;
   position: relative; overflow: hidden; min-height: 92vh;
   display: flex; align-items: center; will-change: background-position;
   contain: layout;
+}
+@media (max-width: 1024px) {
+  .hero { background-attachment: scroll; }
 }
 
 /* Floating shapes */
@@ -421,6 +493,12 @@ video { width: 100%; display: block; background: var(--ink); }
 /* ─── TESTIMONIALS ─── */
 .testimonials { background: linear-gradient(135deg, #f0fafa 0%, #fce8e8 100%); text-align: center; }
 .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
+.tcard-placeholder img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  transition: transform var(--transition);
+}
 .tcard {
   background: var(--surface); border-radius: var(--radius-lg); padding: 32px 28px;
   text-align: left; border: 2px solid var(--border);
@@ -456,7 +534,9 @@ video { width: 100%; display: block; background: var(--ink); }
   border-color: var(--teal);
 }
 .tcard-placeholder img {
-  width: 100%; height: 240px; object-fit: cover;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
   transition: transform var(--transition);
 }
 .tcard-placeholder:hover img {
@@ -840,23 +920,47 @@ video { width: 100%; display: block; background: var(--ink); }
   .contact-actions .btn { width: 100%; min-width: 0; }
   .instructor-placeholder { max-width: 320px; height: 340px; }
 
-  nav { display: none; position: absolute; top: 72px; left: 0; right: 0;
-    background: rgba(240,250,250,0.98); backdrop-filter: blur(20px);
-    flex-direction: column; padding: 16px 20px 20px;
+  nav {
+    display: flex;
+    position: fixed;
+    top: 72px; left: 0; right: 0; bottom: 0;
+    background: rgba(240,250,250,0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    flex-direction: column;
+    padding: 16px 20px 20px;
     border-bottom: 2px solid var(--teal-light);
     box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease;
+    overscroll-behavior: contain;
+    z-index: 998;
+    height: calc(100vh - 72px);
+    overflow-y: auto;
   }
-  nav.open { display: flex; }
-  nav a { border-radius: var(--radius-sm); padding: 12px 16px; }
-  .nav-cta { text-align: center; margin-left: 0; margin-top: 4px; }
+  nav.open {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  nav a {
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    font-size: 16px;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+  }
+  .nav-cta { text-align: center; margin-left: 0; margin-top: 8px; justify-content: center; }
   .menu-toggle { display: flex; }
 }
 
 @media (max-width: 600px) {
   .section { padding: 64px 0; }
   .hero {
-    padding-top: 60px;
-    min-height: 90vh;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    min-height: auto;
     background-attachment: scroll;
     background-position: center center;
     background-size: cover;
@@ -864,7 +968,9 @@ video { width: 100%; display: block; background: var(--ink); }
   .hero-badge { font-size: 12px; padding: 6px 14px; }
   .section-title { font-size: clamp(1.8rem, 6vw, 2.8rem); }
   .section-subtitle { font-size: 16px; }
-  .btn { padding: 16px 24px; font-size: 16px; min-height: 48px; }
+  .btn { padding: 16px 24px; font-size: 16px; min-height: 52px; width: 100%; }
+  .hero-buttons { flex-direction: column; gap: 10px; }
+  .hero-buttons .btn { width: 100%; }
   .course-card, .tcard, .price-card { padding: 24px; }
   .offer-card { padding: 24px; }
   .offer-card h3 { font-size: 18px; }
@@ -872,8 +978,10 @@ video { width: 100%; display: block; background: var(--ink); }
   .price-tag { font-size: 24px; }
   .offers-grid { grid-template-columns: 1fr; gap: 20px; }
   .insta-item img { width: 100%; height: auto; }
-  .whatsapp-float { bottom: 16px; right: 16px; width: 56px; height: 56px; }
+  .whatsapp-float { bottom: max(16px, env(safe-area-inset-bottom)); right: max(16px, env(safe-area-inset-right)); width: 56px; height: 56px; }
   .whatsapp-float svg { width: 24px; height: 24px; }
+  .footer-nav { justify-content: center; }
+  .footer-bottom { justify-content: center; text-align: center; }
 }
 
 @media (max-width: 480px) {
@@ -883,34 +991,53 @@ video { width: 100%; display: block; background: var(--ink); }
     background-attachment: scroll;
     background-size: cover;
     background-position: center center;
-    min-height: 85vh;
-    padding-top: 70px;
+    min-height: auto;
+    padding-top: 40px;
+    padding-bottom: 40px;
   }
   .hero-text h1 { font-size: clamp(1.8rem, 9vw, 2.8rem); }
   .hero-badge { font-size: 11px; padding: 5px 12px; }
   .section { padding: 48px 0; }
   .section-title { font-size: clamp(1.6rem, 7vw, 2.4rem); }
   .section-subtitle { font-size: 15px; }
-  .btn { padding: 14px 20px; font-size: 15px; min-height: 44px; }
+  .btn { padding: 14px 20px; font-size: 15px; min-height: 52px; }
   .course-card, .tcard, .price-card { padding: 20px; }
   .offer-card { padding: 20px; }
   .offer-card h3 { font-size: 17px; }
   .offer-list li { font-size: 13px; }
   .price-tag { font-size: 22px; }
-  .btn-offer-primary, .btn-offer-secondary { padding: 12px 16px; font-size: 14px; }
+  .btn-offer-primary, .btn-offer-secondary { padding: 14px 16px; font-size: 15px; min-height: 52px; }
   .offers-grid { grid-template-columns: 1fr; }
   .offers-headline { font-size: clamp(1.6rem, 5vw, 2.2rem); }
   .about-card, .feature-item { padding: 20px; }
   .instructor-img-wrap img, .instructor-placeholder { max-width: 240px; height: 300px; }
   .enroll-form { padding: 20px 16px; }
-  .form-group input, .form-group select { padding: 12px; font-size: 16px; }
+  .form-group input, .form-group select { padding: 14px; font-size: 16px; min-height: 52px; }
   .insta-item { max-width: 280px; margin: 0 auto; }
   .footer-inner { padding: 32px 16px; }
   .footer-brand p { font-size: 15px; }
-  .whatsapp-float { width: 52px; height: 52px; }
-  .whatsapp-float svg { width: 22px; height: 22px; }
-  .tcard-placeholder img { height: 180px; }
+  .whatsapp-float { width: 56px; height: 56px; }
+  .whatsapp-float svg { width: 24px; height: 24px; }
   .tcard-placeholder p { padding: 16px; font-size: 14px; }
+  .faq-item summary { padding: 16px 18px; font-size: 15px; }
+  .faq-item p { padding: 0 18px 16px; font-size: 14px; }
+  .trust-num { font-size: 20px; }
+  .istat-num { font-size: 22px; }
+}
+
+/* Extra tiny screens */
+@media (max-width: 380px) {
+  .hero-text h1 { font-size: clamp(1.6rem, 10vw, 2.2rem); }
+  .section-title { font-size: clamp(1.5rem, 8vw, 2rem); }
+  .btn { font-size: 14px; padding: 12px 16px; }
+  .course-card { padding: 16px; }
+  .course-features li { font-size: 13px; }
+  .offer-card { padding: 16px; }
+  .offer-list li { font-size: 12px; }
+  .feature-item { padding: 12px; gap: 10px; }
+  .feature-icon { font-size: 24px; }
+  .feature-item div strong { font-size: 13px; }
+  .feature-item div p { font-size: 11px; }
 }
 
 /* ─── LIGHTBOX ─── */
