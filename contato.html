@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contato | Libras House</title>
+  <meta name="description" content="Entre em contato com a Libras House e garanta sua vaga no curso de Libras." />
+  <link rel="icon" type="image/png" href="logo.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800;900&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── Page Hero ── */
+    .page-hero {
+      background: linear-gradient(135deg, #f0fdfd 0%, #e6f8f8 60%, #f3effe 100%);
+      padding: 56px 0 48px;
+      text-align: center;
+    }
+    .page-hero h1 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 900; margin-bottom: 10px; }
+    .page-hero p { color: var(--muted); font-size: 1.05rem; max-width: 520px; margin: 0 auto; }
+
+    /* ── Contact Layout ── */
+    .contact-section { background: var(--white); }
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 56px;
+      align-items: start;
+    }
+
+    /* ── Info Column ── */
+    .contact-info h2 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .contact-info > p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+    .contact-methods { display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px; }
+    .contact-method {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .contact-method:hover { border-color: var(--teal); background: var(--teal-soft); }
+    .contact-method-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .icon-green { background: #dcfce7; }
+    .icon-teal { background: var(--teal-soft); }
+    .icon-purple { background: var(--purple-soft); }
+    .contact-method strong { display: block; font-weight: 700; font-size: 0.92rem; color: var(--dark); }
+    .contact-method span { font-size: 0.82rem; color: var(--muted); }
+
+    .perks { display: flex; flex-direction: column; gap: 10px; }
+    .perk {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: var(--text);
+    }
+    .perk-icon {
+      width: 28px; height: 28px;
+      background: var(--teal-soft);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    /* ── Form ── */
+    .form-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      box-shadow: var(--shadow);
+    }
+    .form-card h3 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 24px;
+      color: var(--dark);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--dark);
+    }
+    .form-group label span { color: var(--teal); }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      color: var(--text);
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      transition: var(--transition);
+      outline: none;
+      resize: vertical;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--teal);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(42,191,191,0.12);
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: #a0aec0; }
+
+    .btn-submit {
+      width: 100%;
+      justify-content: center;
+      background: var(--teal);
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 14px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      border: none;
+      transition: var(--transition);
+    }
+    .btn-submit:hover { background: var(--teal-dark); transform: translateY(-1px); }
+
+    #form-message {
+      display: none;
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: var(--radius);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    /* ── Instagram ── */
+    .instagram { background: var(--bg); }
+    .insta-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .insta-item {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      aspect-ratio: 1;
+      display: block;
+    }
+    .insta-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .insta-item:hover img { transform: scale(1.05); }
+    .insta-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(42,191,191,0.75);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .insta-item:hover .insta-overlay { opacity: 1; }
+
+    @media (max-width: 900px) {
+      .contact-inner { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .insta-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .form-card { padding: 24px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="header" role="banner">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <img src="logo.jpg" alt="Logo Libras House" />
+      <span class="logo-text">Libras <em>House</em></span>
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-backdrop" id="navBackdrop"></div>
+    <nav id="nav" role="navigation">
+      <a href="index.html">Início</a>
+      <a href="cursos.html">Cursos</a>
+      <a href="contato.html" class="active">Contato</a>
+      <a href="https://wa.me/558388341499?text=Olá+Manu!+Quero+garantir+minha+vaga." class="nav-cta" target="_blank" rel="noopener">Inscreva-se ✨</a>
+    </nav>
+  </div>
+</header>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="container">
+    <div class="section-tag">✍️ Fale conosco</div>
+    <h1>Vamos começar <em>juntos?</em></h1>
+    <p>Envie uma mensagem e garanta sua vaga. Respondemos em até 24 horas.</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section section">
+  <div class="container">
+    <div class="contact-inner">
+
+      <!-- Left: Info -->
+      <div class="contact-info reveal">
+        <h2>Entre em <em>contato</em></h2>
+        <p>A forma mais rápida de garantir sua vaga é pelo WhatsApp. Você também pode enviar um e-mail ou preencher o formulário ao lado.</p>
+
+        <div class="contact-methods">
+          <a href="https://wa.me/558388341499?text=Olá+Manu!+Quero+saber+mais+sobre+os+cursos." class="contact-method" target="_blank" rel="noopener">
+            <div class="contact-method-icon icon-green">💬</div>
+            <div>
+              <strong>WhatsApp</strong>
+              <span>(83) 8834-1499 — resposta rápida</span>
+            </div>
+          </a>
+          <a href="mailto:librashouse@techsbrasil.com" class="contact-method">
+            <div class="contact-method-icon icon-teal">📧</div>
+            <div>
+              <strong>E-mail</strong>
+              <span>librashouse@techsbrasil.com</span>
+            </div>
+          </a>
+          <a href="https://instagram.com/libras.house" class="contact-method" target="_blank" rel="noopener">
+            <div class="contact-method-icon icon-purple">📷</div>
+            <div>
+              <strong>Instagram</strong>
+              <span>@libras.house</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="perks">
+          <div class="perk"><div class="perk-icon">🔒</div><span>Seus dados estão seguros conosco</span></div>
+          <div class="perk"><div class="perk-icon">⚡</div><span>Confirmação de vaga em até 24h</span></div>
+          <div class="perk"><div class="perk-icon">💬</div><span>Suporte contínuo via WhatsApp</span></div>
+          <div class="perk"><div class="perk-icon">🏅</div><span>Certificado ao concluir o curso</span></div>
+        </div>
+      </div>
+
+      <!-- Right: Form -->
+      <div class="form-card reveal">
+        <h3>Formulário de inscrição</h3>
+        <form action="https://formspree.io/f/meevzjja" method="POST" novalidate id="enrollForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nome">Nome completo <span>*</span></label>
+              <input id="nome" name="nome" type="text" placeholder="Seu nome" required autocomplete="name" />
+            </div>
+            <div class="form-group">
+              <label for="email">E-mail <span>*</span></label>
+              <input id="email" name="email" type="email" placeholder="seu@email.com" required autocomplete="email" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="whatsapp">WhatsApp</label>
+            <input id="whatsapp" name="whatsapp" type="tel" placeholder="(83) 99999-0000" autocomplete="tel" />
+          </div>
+          <div class="form-group">
+            <label for="objetivo">Qual curso te interessa?</label>
+            <select id="objetivo" name="objetivo">
+              <option value="">Selecione um curso...</option>
+              <option>Básico ao Avançado — R$ 85/mês</option>
+              <option>Aulas Particulares — R$ 145/mês</option>
+              <option>Clube de Conversação — R$ 92/mês</option>
+              <option>Quero saber mais antes de decidir</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="mensagem">Mensagem (opcional)</label>
+            <textarea id="mensagem" name="mensagem" rows="3" placeholder="Alguma dúvida ou informação extra?"></textarea>
+          </div>
+          <button type="submit" class="btn btn-submit">
+            Enviar minha inscrição
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-left:6px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <p id="form-message" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- INSTAGRAM -->
+<section class="instagram section">
+  <div class="container">
+    <div class="section-tag">📸 Instagram</div>
+    <h2 class="section-title">Siga a gente no <em>Instagram</em></h2>
+    <p class="section-subtitle">Dicas de Libras todo dia. ❤️ <strong>@libras.house</strong></p>
+    <div class="insta-grid">
+      <a href="https://www.instagram.com/libras.house/" target="_blank" rel="noopener" class="insta-item" aria-label="Instagram Libras House">
+        <img src="turmapeoplelibrashouse.jpg" alt="Turma Libras House" loading="lazy" />
+        <div class="insta-overlay">Ver no Instagram</div>
+      </a>
+      <a href="https://www.instagram.com/libras.house/" target="_blank" rel="noopener" class="insta-item" aria-label="Instagram Libras House">
+        <img src="tvlibrashouse.jpg" alt="Libras House TV" loading="lazy" />
+        <div class="insta-overlay">Ver no Instagram</div>
+      </a>
+      <a href="https://www.instagram.com/libras.house/" target="_blank" rel="noopener" class="insta-item" aria-label="Instagram Libras House">
+        <img src="dicaslibrashouse2.jpg" alt="Dicas Libras House" loading="lazy" />
+        <div class="insta-overlay">Ver no Instagram</div>
+      </a>
+      <a href="https://www.instagram.com/libras.house/" target="_blank" rel="noopener" class="insta-item" aria-label="Instagram Libras House">
+        <img src="dicaslibrashouse1.jpg" alt="Dicas Libras House" loading="lazy" />
+        <div class="insta-overlay">Ver no Instagram</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <span class="logo-text">Libras <em>House</em></span>
+      <p>Aprenda Libras do zero à fluência com uma escola feita para você.</p>
+      <div class="footer-social" style="margin-top:16px;">
+        <a href="https://instagram.com/libras.house" target="_blank" aria-label="Instagram">📷</a>
+        <a href="https://wa.me/558388341499" target="_blank" aria-label="WhatsApp">💬</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Navegação</h4>
+      <a href="index.html">Início</a>
+      <a href="cursos.html">Cursos</a>
+      <a href="contato.html">Contato</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contato</h4>
+      <a href="mailto:librashouse@techsbrasil.com">librashouse@techsbrasil.com</a>
+      <a href="https://wa.me/558388341499">(83) 8834-1499</a>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Libras House. Todos os direitos reservados.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/558388341499?text=Olá+Manu!+Tenho+interesse+no+curso+de+Libras+🤟" class="whatsapp-float" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.523 5.855L.057 23.854a.5.5 0 0 0 .608.61l6.203-1.426A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.907 0-3.693-.498-5.24-1.367l-.374-.214-3.883.892.927-3.793-.232-.38A9.953 9.953 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+  </svg>
+</a>
+
+<script>
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 20), { passive: true });
+  const toggle = document.getElementById('menuToggle');
+  const nav = document.getElementById('nav');
+  const backdrop = document.getElementById('navBackdrop');
+  let scrollY = 0;
+  function openMenu() { scrollY = window.scrollY; nav.classList.add('open'); backdrop.classList.add('open'); toggle.setAttribute('aria-expanded', true); document.body.style.cssText = `overflow:hidden;position:fixed;top:-${scrollY}px;width:100%`; }
+  function closeMenu() { nav.classList.remove('open'); backdrop.classList.remove('open'); toggle.setAttribute('aria-expanded', false); document.body.style.cssText = ''; window.scrollTo(0, scrollY); }
+  toggle.addEventListener('click', () => nav.classList.contains('open') ? closeMenu() : openMenu());
+  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+  backdrop.addEventListener('click', closeMenu);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Phone mask
+  const waInput = document.getElementById('whatsapp');
+  waInput && waInput.addEventListener('input', function() {
+    let v = this.value.replace(/\D/g,'').slice(0,11);
+    if (v.length > 6) v = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
+    else if (v.length > 2) v = `(${v.slice(0,2)}) ${v.slice(2)}`;
+    else if (v.length > 0) v = `(${v}`;
+    this.value = v;
+  });
+
+  // Form submit
+  const form = document.getElementById('enrollForm');
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const msg = document.getElementById('form-message');
+    const nome = document.getElementById('nome').value.trim();
+    const email = document.getElementById('email').value.trim();
+    if (!nome || !email) {
+      msg.innerHTML = '❌ Por favor, informe seu nome e e-mail.';
+      msg.style.cssText = 'display:block;color:#d64545;background:#fff5f5;border:1px solid #fed7d7;border-radius:8px;padding:12px 16px;';
+      return;
+    }
+    fetch(this.action, {
+      method: 'POST',
+      body: new FormData(this),
+      headers: { 'Accept': 'application/json' }
+    }).then(r => {
+      if (r.ok) {
+        msg.innerHTML = '✅ <strong>Inscrição enviada!</strong><br>Entraremos em contato em até 24h pelo WhatsApp.';
+        msg.style.cssText = 'display:block;color:#276749;background:#f0fff4;border:1px solid #9ae6b4;border-radius:8px;padding:14px 16px;';
+        form.reset();
+        setTimeout(() => msg.style.display = 'none', 7000);
+      } else {
+        msg.innerHTML = '⚠️ Erro ao enviar. Tente novamente.';
+        msg.style.cssText = 'display:block;color:#d64545;background:#fff5f5;border-radius:8px;padding:12px 16px;';
+      }
+    }).catch(() => {
+      msg.innerHTML = '⚠️ Verifique sua conexão e tente novamente.';
+      msg.style.cssText = 'display:block;color:#d64545;background:#fff5f5;border-radius:8px;padding:12px 16px;';
+    });
+  });
+</script>
+</body>
+</html>

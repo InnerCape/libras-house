@@ -1,0 +1,692 @@
+/* ══════════════════════════════════════════
+   LIBRAS HOUSE — Shared Stylesheet
+   Mobile-first, touch-optimised (v2)
+══════════════════════════════════════════ */
+
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --teal:       #2ABFBF;
+  --teal-dark:  #1a9999;
+  --teal-soft:  #e6f8f8;
+  --purple:     #6B4FA0;
+  --purple-soft:#f3effe;
+  --blue-post:  #5B7BA8;
+  --yellow-post:#FFD54F;
+  --red-post:   #C74245;
+  --dark:       #1a1a2e;
+  --text:       #2d3748;
+  --muted:      #718096;
+  --border:     #e2e8f0;
+  --white:      #ffffff;
+  --bg:         #f7fafa;
+
+  --radius:     14px;
+  --radius-lg:  22px;
+  --shadow:     0 2px 16px rgba(42,191,191,0.08);
+  --shadow-md:  0 4px 32px rgba(42,191,191,0.13);
+  --transition: 0.22s ease;
+
+  --font-display: 'Baloo 2', cursive;
+  --font-body:    'Nunito', sans-serif;
+
+  --sp-xs:  8px;
+  --sp-sm:  16px;
+  --sp-md:  24px;
+  --sp-lg:  40px;
+  --sp-xl:  64px;
+
+  /* Touch target — generous on mobile */
+  --touch: 56px;
+}
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  background: var(--white);
+  /* Larger base on mobile — easier to read */
+  font-size: 17px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* Bump back down on desktop — 17px feels big on wide screens */
+@media (min-width: 768px) { body { font-size: 16px; } }
+
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration: none; }
+em { font-style: normal; color: var(--teal); }
+
+/* ── Typography ── */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--dark);
+  line-height: 1.2;
+}
+
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  /* Slightly larger on mobile */
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--blue-post);
+  background: rgba(91, 123, 168, 0.12);
+  border: 1px solid rgba(91, 123, 168, 0.25);
+  padding: 7px 16px;
+  border-radius: 100px;
+  margin-bottom: 12px;
+}
+
+.faq .section-tag {
+  color: var(--white);
+  background: linear-gradient(135deg, var(--red-post) 0%, rgba(199,66,69,0.95) 100%);
+  border-color: var(--red-post);
+  box-shadow: 0 8px 25px rgba(199,66,69,0.2);
+}
+
+.about .section-tag { color: var(--blue-post); background: rgba(91,123,168,0.12); border-color: rgba(91,123,168,0.25); }
+.instructors .section-tag { color: var(--red-post); background: rgba(255,213,79,0.16); border-color: rgba(255,213,79,0.35); }
+.testimonials .section-tag { color: var(--dark); background: rgba(255,215,79,0.16); border-color: rgba(255,215,79,0.35); }
+
+.section-title {
+  font-size: clamp(1.65rem, 6vw, 2.4rem);
+  font-weight: 800;
+  margin-bottom: 10px;
+  line-height: 1.15;
+}
+
+.section-subtitle {
+  color: var(--muted);
+  font-size: clamp(0.97rem, 3vw, 1.05rem);
+  max-width: 540px;
+  margin-bottom: 32px;
+  line-height: 1.65;
+}
+
+/* ── Container ── */
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 18px;
+}
+
+@media (min-width: 480px) { .container { padding: 0 24px; } }
+@media (min-width: 768px) { .container { padding: 0 32px; } }
+
+.section { padding: 56px 0; }
+@media (min-width: 768px) { .section { padding: 80px 0; } }
+
+
+/* ══════════════════════
+   BUTTONS — very tap-friendly
+══════════════════════ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  /* Bigger font on mobile */
+  font-size: 1.05rem;
+  /* Taller tap target */
+  min-height: var(--touch);
+  padding: 0 28px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+  text-decoration: none;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  /* Prevent accidental text selection on double-tap */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.btn-block-mobile { width: 100%; }
+@media (min-width: 480px) { .btn-block-mobile { width: auto; } }
+
+.btn-primary  { background: var(--teal); color: var(--white); }
+.btn-primary:hover  { background: #2ABFBF; transform: translateY(-1px); }
+/* Active state for touch feedback */
+.btn-primary:active { background: #2ABFBF; transform: scale(0.98); }
+
+.btn-outline  {
+  background: transparent;
+  color: var(--yellow-post);
+  border: 2px solid var(--yellow-post);
+}
+.btn-outline:hover  { background: rgba(255, 213, 79, 0.1); }
+.btn-outline:active { background: rgba(255, 213, 79, 0.1); transform: scale(0.98); }
+
+.btn-purple   { background: var(--purple); color: var(--white); }
+.btn-purple:hover   { background: #5a3f8a; transform: translateY(-1px); }
+
+.btn-white    { background: var(--white); color: var(--teal-dark); font-weight: 700; }
+.btn-white:hover    { background: var(--teal-soft); transform: translateY(-1px); }
+.btn-white:active   { transform: scale(0.98); }
+
+.btn-ghost {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  border: 2px solid rgba(255,255,255,0.45);
+}
+.btn-ghost:hover  { background: rgba(255,255,255,0.25); }
+.btn-ghost:active { transform: scale(0.98); }
+
+.btn-lg {
+  font-size: 1.1rem;
+  /* Even taller on mobile */
+  min-height: 60px;
+  padding: 0 36px;
+  border-radius: 18px;
+}
+@media (min-width: 768px) {
+  .btn-lg { font-size: 1.05rem; min-height: 56px; padding: 0 32px; }
+}
+
+
+/* ══════════════
+   HEADER / NAV
+══════════════ */
+#header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  transition: box-shadow var(--transition);
+}
+#header.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+
+.header-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 18px;
+  /* Taller header on mobile = bigger tap area */
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+@media (min-width: 480px) { .header-inner { padding: 0 24px; } }
+@media (min-width: 768px) { .header-inner { height: 68px; padding: 0 32px; } }
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  min-height: var(--touch);
+}
+.logo img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+@media (min-width: 480px) { .logo img { width: 44px; height: 44px; } }
+.logo-text {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--dark);
+}
+@media (min-width: 480px) { .logo-text { font-size: 1.4rem; } }
+.logo-text em { color: var(--teal); }
+
+/* Desktop nav */
+nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+nav a {
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 10px;
+  transition: var(--transition);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+nav a:hover  { color: var(--teal); background: var(--teal-soft); }
+nav a.active { color: var(--teal); background: var(--teal-soft); }
+nav a.nav-cta {
+  background: var(--teal);
+  color: var(--white);
+  margin-left: 8px;
+  border-radius: var(--radius);
+}
+nav a.nav-cta:hover { background: var(--teal-dark); }
+
+/* Hamburger */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  background: var(--teal-soft);
+  border: 1.5px solid rgba(42,191,191,0.3);
+  cursor: pointer;
+  padding: 10px;
+  border-radius: var(--radius);
+  /* Generous tap target */
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+  transition: var(--transition);
+}
+.menu-toggle:active { background: rgba(42,191,191,0.2); transform: scale(0.96); }
+.menu-toggle span {
+  display: block;
+  width: 24px;
+  height: 2.5px;
+  background: var(--teal-dark);
+  border-radius: 2px;
+  transition: var(--transition);
+}
+
+.nav-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 99;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.nav-backdrop.open { opacity: 1; }
+
+/* ── Mobile Nav Drawer ── */
+@media (max-width: 768px) {
+  .menu-toggle { display: flex; }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    bottom: 0;
+    width: min(300px, 88vw);
+    background: var(--white);
+    padding: 88px 18px 48px;
+    z-index: 100;
+    box-shadow: -8px 0 40px rgba(0,0,0,0.14);
+    overflow-y: auto;
+    transition: right 0.3s ease;
+  }
+  nav.open { right: 0; }
+
+  nav a {
+    width: 100%;
+    padding: 16px 20px;
+    font-size: 1.1rem;
+    border-radius: var(--radius);
+    /* Large tap target in menu */
+    min-height: 58px;
+  }
+  nav a.nav-cta {
+    margin-left: 0;
+    margin-top: 14px;
+    justify-content: center;
+    font-size: 1.05rem;
+    min-height: 58px;
+  }
+  .nav-backdrop { display: block; }
+}
+
+
+/* ══════════════════
+   FEATURES BAR
+══════════════════ */
+.features-bar {
+  background: var(--teal-soft);
+  border-top: 1px solid rgba(42,191,191,0.15);
+  border-bottom: 1px solid rgba(42,191,191,0.15);
+  padding: 28px 0;
+}
+.features-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 18px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+@media (min-width: 480px)  { .features-inner { padding: 0 24px; gap: 16px; } }
+@media (min-width: 768px)  { .features-inner { padding: 0 32px; gap: 20px; } }
+@media (min-width: 900px)  { .features-inner { grid-template-columns: repeat(4, 1fr); } }
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--white);
+  border: 1px solid rgba(42,191,191,0.2);
+  border-radius: var(--radius);
+  /* Taller on mobile for tap comfort */
+  padding: 16px 14px;
+  transition: var(--transition);
+}
+.feature-item:active { transform: scale(0.98); }
+@media (min-width: 900px) {
+  .feature-item { background: transparent; border: none; padding: 0; }
+}
+.feature-icon {
+  font-size: 1.9rem;
+  flex-shrink: 0;
+}
+.feature-item strong {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.3;
+}
+.feature-item p {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+
+/* ══════════════
+   FOOTER
+══════════════ */
+.footer {
+  background: var(--dark);
+  color: rgba(255,255,255,0.75);
+  padding: 52px 0 32px;
+}
+.footer-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 18px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 36px;
+}
+@media (min-width: 480px)  { .footer-inner { padding: 0 24px; } }
+@media (min-width: 640px)  { .footer-inner { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 900px)  { .footer-inner { grid-template-columns: 2fr 1fr 1fr; gap: 48px; padding: 0 32px; } }
+
+.footer .logo-text { color: var(--white); font-size: 1.3rem; }
+.footer > div > p,
+.footer-inner > div > p {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  max-width: 300px;
+  color: rgba(255,255,255,0.65);
+}
+.footer-col h4 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+.footer-col a {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.65);
+  /* Comfortable tap target */
+  min-height: 48px;
+  padding: 2px 0;
+  transition: var(--transition);
+}
+.footer-col a:hover { color: var(--teal); }
+
+.footer-bottom {
+  grid-column: 1 / -1;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 24px;
+  font-size: 0.84rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.footer-social { display: flex; gap: 12px; margin-top: 16px; }
+.footer-social a {
+  /* Larger tap targets for social icons */
+  width: 48px;
+  height: 48px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  transition: var(--transition);
+  -webkit-tap-highlight-color: transparent;
+}
+.footer-social a:hover  { background: var(--teal); }
+.footer-social a:active { transform: scale(0.95); }
+
+
+/* ══════════════
+   WHATSAPP FLOAT
+══════════════ */
+.whatsapp-float {
+  position: fixed;
+  /* Higher on mobile to clear iOS home indicator */
+  bottom: 24px;
+  right: 18px;
+  /* Bigger on mobile */
+  width: 64px;
+  height: 64px;
+  background: #25D366;
+  color: var(--white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 24px rgba(37,211,102,0.5);
+  z-index: 200;
+  transition: transform var(--transition), box-shadow var(--transition);
+  -webkit-tap-highlight-color: transparent;
+}
+.whatsapp-float:hover,
+.whatsapp-float:active {
+  transform: scale(1.1);
+  box-shadow: 0 6px 32px rgba(37,211,102,0.6);
+}
+@media (min-width: 768px) {
+  .whatsapp-float {
+    bottom: 28px;
+    right: 28px;
+    width: 60px;
+    height: 60px;
+  }
+}
+
+
+/* ══════════════
+   SCROLL REVEAL
+══════════════ */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal.visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  * { transition-duration: 0.01ms !important; }
+}
+
+
+/* ══════════════════════════════════════════
+   MOBILE-SPECIFIC ENHANCEMENTS
+   These patches layer on top of per-page
+   styles and fix common mobile pain points.
+══════════════════════════════════════════ */
+
+/* ── Ensure all interactive elements hit minimum tap size ── */
+button, [role="button"], input[type="submit"], input[type="button"],
+select, a.btn, a.nav-cta, .contact-method, .btn-course, .btn-course-featured,
+.btn-submit, .faq-item summary {
+  min-height: var(--touch);
+}
+
+/* ── Form inputs: 16px prevents iOS auto-zoom on focus ── */
+input, select, textarea {
+  font-size: 16px !important;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* ── Prevent long strings (emails, URLs) breaking layout ── */
+p, li, td, th, label, span, a {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* ── Links in body copy get a visible underline ── */
+.about-card a, .instructor-info a, .tcard a, .footer p a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ── Improve tap feedback on cards ── */
+.about-card, .instructor-card, .course-card, .tcard, .contact-method,
+.feature-item {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ── Page hero: slightly more padding on small phones ── */
+@media (max-width: 380px) {
+  .hero { padding: 36px 0 32px; }
+  .page-hero { padding: 36px 0 28px; }
+  .section { padding: 48px 0; }
+  .container { padding: 0 16px; }
+}
+
+/* ── Hero trust bar: stack on very small screens ── */
+@media (max-width: 360px) {
+  .hero-trust { flex-direction: column; gap: 12px; width: 100%; }
+  .trust-divider { width: 60%; height: 1px; }
+}
+
+/* ── Hero buttons full-width below 480px ── */
+@media (max-width: 479px) {
+  .hero-buttons { flex-direction: column; }
+  .hero-buttons .btn { width: 100%; }
+  .cta-buttons { flex-direction: column; }
+  .cta-buttons .btn { width: 100%; }
+}
+
+/* ── Course cards: ensure buttons are always full-width ── */
+@media (max-width: 639px) {
+  .btn-course, .btn-course-featured { min-height: 58px; font-size: 1.05rem; }
+}
+
+/* ── Contact form: full-width row fields on narrow screens ── */
+@media (max-width: 599px) {
+  .form-row { grid-template-columns: 1fr !important; }
+}
+
+/* ── FAQ: bigger tap target on mobile ── */
+@media (max-width: 767px) {
+  .faq-item summary {
+    padding: 18px 20px;
+    font-size: 1rem;
+    min-height: 60px;
+  }
+  .faq-item p {
+    font-size: 0.93rem;
+    padding: 16px 20px 20px;
+  }
+}
+
+/* ── Compare table: horizontal scroll wrapper on small screens ── */
+.table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius-lg);
+  /* Hint to user that it scrolls */
+  scrollbar-width: thin;
+  scrollbar-color: var(--teal) transparent;
+}
+.table-wrap::-webkit-scrollbar { height: 4px; }
+.table-wrap::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 4px; }
+
+/* ── Compare table: min width so content doesn't collapse ── */
+.compare-table { min-width: 500px; }
+
+/* ── Section tags: centred on mobile ── */
+@media (max-width: 767px) {
+  .about .section-tag,
+  .instructors .section-tag,
+  .testimonials .section-tag,
+  .instagram .section-tag,
+  .compare .section-tag,
+  .faq .section-tag {
+    display: flex;
+    width: fit-content;
+  }
+}
+
+/* ── Instructor photo: slightly smaller on narrow phones ── */
+@media (max-width: 380px) {
+  .instructor-photo-placeholder { width: 60px !important; height: 60px !important; font-size: 1.6rem !important; }
+}
+
+/* ── WhatsApp CTA: add breathing room above float button ── */
+body { padding-bottom: 0; }
+@media (max-width: 767px) {
+  /* Make sure the last section doesn't hide behind the float button */
+  .footer { padding-bottom: 96px; }
+}
+@media (min-width: 768px) {
+  .footer { padding-bottom: 32px; }
+}
+
+/* ── Instagram grid: tighter gap on small screens ── */
+@media (max-width: 480px) {
+  .insta-grid { gap: 8px !important; }
+}
+
+/* ── Testimonial images: consistent aspect ratio ── */
+.tcard img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  width: 100%;
+  border-radius: var(--radius);
+}
+
+/* ── CTA banner text: tighter on phones ── */
+@media (max-width: 479px) {
+  .cta-banner { padding: 44px 0; }
+  .cta-banner h2 { font-size: 1.4rem; }
+}
+
+/* ── Page hero text: tighter on phones ── */
+@media (max-width: 479px) {
+  .page-hero h1 { font-size: 1.75rem; }
+}
