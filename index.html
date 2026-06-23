@@ -11,6 +11,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800;900&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <style>
+    /* Mobile-first: make images responsive across the site */
+    img { max-width: 100%; height: auto; display: block; }
+
     /* ── Hero ── */
     .hero {
       background-image: url('nova capa.png');
@@ -201,56 +204,58 @@
 
     /* ── About Section ── */
     .about { background: linear-gradient(135deg, rgba(91,123,168,0.15) 0%, rgba(91,123,168,0.04) 100%); }
-    .about-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-    }
-    .about-card {
-      background: var(--white);
-      border: 1px solid rgba(91,123,168,0.25);
-      border-radius: var(--radius-lg);
-      padding: 28px 22px;
-      transition: var(--transition);
-      box-shadow: 0 12px 30px rgba(91,123,168,0.08);
-    }
-    .about-card:hover {
-      border-color: var(--blue-post);
-      box-shadow: 0 16px 40px rgba(91,123,168,0.18);
-      transform: translateY(-2px);
-    }
-    .about-icon {
-      font-size: 2rem;
-      margin-bottom: 14px;
-    }
-    .about-card h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .about-card p {
-      font-size: 0.88rem;
+
+    /* (grid/card sizing moved to style.css for consistency) */
+    .about-copy {
+      max-width: 760px;
+      margin: 14px 0 24px;
       color: var(--muted);
-      line-height: 1.6;
+    }
+    .about-copy p {
+      margin-bottom: 12px;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--muted);
     }
 
+
     /* ── Instructors ── */
-    .instructors { background: linear-gradient(135deg, rgba(255,213,79,0.18) 0%, rgba(255,213,79,0.06) 100%); }
+    .instructors {
+    background: linear-gradient(
+    135deg,
+    rgba(255,213,79,0.25) 0%,
+    rgba(199,66,69,0.08) 100%
+  );
+}
     .instructors-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 28px;
     }
+
+      .instructors-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .instructor-card {
+        padding: 16px;
+      }
+
+      .instructor-photo,
+      .instructor-photo-placeholder {
+        width: 70px;
+        height: 70px;
+      }
+
     .instructor-card {
-      background: var(--white);
-      border: 1px solid rgba(255,213,79,0.35);
-      border-radius: var(--radius-lg);
-      padding: 32px;
+      padding: 20px;
       display: flex;
-      gap: 24px;
-      align-items: flex-start;
-      transition: var(--transition);
-    }
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 12px;
+}
     .instructor-card:hover {
       box-shadow: 0 16px 40px rgba(255,213,79,0.16);
       border-color: var(--red-post);
@@ -309,12 +314,12 @@
     }
     .tcard img {
       width: 100%;
+      height: 220px;
+      object-fit: cover;
       border-radius: var(--radius);
       margin-bottom: 16px;
-      aspect-ratio: 4/3;
-      object-fit: cover;
-      cursor: pointer;
-      transition: transform var(--transition), box-shadow var(--transition);
+
+
     }
     .tcard img:focus,
     .tcard img:hover {
@@ -327,6 +332,10 @@
       color: var(--text);
       line-height: 1.65;
       font-style: italic;
+    }
+
+    .tcard {
+      min-height: 240px;
     }
 
     /* Modal for testimonial preview */
@@ -467,13 +476,92 @@
       .hero-inner { grid-template-columns: 1fr; gap: 40px; }
       .hero-visual { display: none; }
       .about-grid { grid-template-columns: repeat(2, 1fr); }
-      .instructors-grid { grid-template-columns: 1fr; }
-      .tgrid { grid-template-columns: 1fr; }
+      .instructors-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .tgrid {grid-template-columns: repeat(2, 1fr);gap: 14px;
+}
+      .tcard {
+        padding: 18px;
+        min-height: 0;
+      }
+      .tcard img {
+        aspect-ratio: 16 / 9;
+        max-height: 220px;
+      }
+
     }
     @media (max-width: 640px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .about-card { aspect-ratio: auto; min-height: 0; }
+
+
       .hero { padding: 56px 0 48px; }
       .about-grid { grid-template-columns: 1fr; }
       .cta-banner-inner { flex-direction: column; align-items: flex-start; }
+      .tcard {
+        padding: 16px;
+        min-height: 0;
+      }
+
+      .tcard img {
+        aspect-ratio: 16 / 9;
+        height: auto;
+        max-height: 200px;
+      }
+
+      .tcard p {
+        font-size: 0.95rem;
+        margin-top: 12px;
+      }
+
+      /* Slightly tighter page padding on small screens */
+      .container { padding-left: 16px; padding-right: 16px; }
+      /* Improve hero background appearance on small screens */
+      .hero {
+        background-position: center top;
+        background-size: cover;
+        padding: 56px 0 48px;
+      }
+      .hero::before {
+        background: linear-gradient(135deg, rgba(240,253,253,0.48) 0%, rgba(230,248,248,0.42) 50%, rgba(243,239,254,0.46) 100%);
+      }
+    }
+    /* Features / Others section: responsive 2x2 square cards */
+    .features-bar { padding: 28px 0; }
+    .features-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+    .feature-item {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+      aspect-ratio: 1 / 1;
+      min-height: 120px;
+    }
+    .feature-item:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0,0,0,0.09); }
+    .feature-icon { font-size: 1.9rem; margin-bottom: 10px; }
+    .feature-item strong { display:block; margin-bottom:6px; }
+    .feature-item p { margin:0; color:var(--muted); font-size:0.92rem; }
+
+    @media (max-width: 900px) {
+      .features-inner { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .features-inner { grid-template-columns: repeat(2, 1fr); gap:12px; }
+      .feature-item { padding: 16px; min-height: 110px; }
     }
   </style>
 </head>
@@ -486,11 +574,11 @@
       <img src="logo.jpg" alt="Logo Libras House" />
       <span class="logo-text">Libras <em>House</em></span>
     </a>
-    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav">
       <span></span><span></span><span></span>
     </button>
     <div class="nav-backdrop" id="navBackdrop"></div>
-    <nav id="nav" role="navigation">
+    <nav id="nav" role="navigation" aria-hidden="true">
       <a href="index.html" class="active">Início</a>
       <a href="cursos.html">Cursos</a>
       <a href="contato.html">Contato</a>
@@ -580,7 +668,11 @@
     <div class="section-tag">🏠 Quem somos</div>
     <h2 class="section-title">Sobre a <em>Libras House</em></h2>
     <p class="section-subtitle">Fundada em 2024 por Manu, a nossa missão é tornar o aprendizado de Libras mais acessível, prático e eficiente por meio de aulas online e conteúdos gravados.</p>
-    <p></p>
+    <div class="about-copy">
+      <p>Começamos de forma simples, movidos pela paixão pelo ensino e pela inclusão. Desde então, temos crescido a cada mês, alcançando novos alunos e ampliando nosso impacto.</p>
+      <p>Acreditamos que a Libras é uma ferramenta poderosa de comunicação, inclusão e transformação social. Por isso, trabalhamos diariamente para disseminar esse conhecimento, promover a acessibilidade e contribuir para uma sociedade mais inclusiva.</p>
+      <p>Nosso compromisso é ensinar a Libras de forma autêntica, valorizando a comunicação visual e os usos reais da língua dentro da comunidade surda. Buscamos levar aos nossos alunos uma Libras viva, natural e alinhada à forma como as pessoas surdas se comunicam no dia a dia.</p>
+    </div>
     <div class="about-grid">
       <div class="about-card reveal">
         <div class="about-icon">🤟</div>
@@ -644,7 +736,7 @@
         <img src="testemunho 1.jpeg" alt="Depoimento de aluno 1" />
         <p>"Wellington"</p>
       </div>
-<<<<<<< HEAD
+
       <div class="tcard reveal">
         <img src="testemunho 2.jpeg" alt="Depoimento de aluna 2" />
         <p>"Ana Carla"</p>
@@ -652,20 +744,6 @@
       <div class="tcard reveal">
         <img src="testemunho 3.jpeg" alt="Depoimento de aluna 3" />
         <p>"Ellen"</p>
-=======
-      <div class="instructor-text">
-        <div class="section-tag">👩‍🏫 Nosso time</div>
-        <h2 id="professora2-title" class="section-title">Conheça a <em>Laís Santos</em></h2>
-        <p class="instructor-bio">Professora e intérprete de Libras com experiência em ensino prático e inclusão. Laís traz expertise em comunicação acessível e está aqui para ajudar você a aprender de verdade.
-          Aprendeu Libras para ajudar mais na comunidade surda e se tornou professora para ensinar o idioma que tanto ama.
-        </p>
-        <div class="instructor-stats" role="list">
-          <div class="istat" role="listitem"><span class="istat-num">Professora</span><span class="istat-label">Libras</span></div>
-          <div class="istat" role="listitem"><span class="istat-num">Intérprete</span><span class="istat-label">Profissional</span></div>
-          <div class="istat" role="listitem"><span class="istat-num">Prática</span><span class="istat-label">e Inclusão</span></div>
-        </div>
-        <a href="https://wa.me/558388341499?text=Ol%C3%A1%20La%C3%ADs!%20Quero%20saber%20mais%20sobre%20seus%20cursos%20de%20Libras." class="btn btn-primary" target="_blank" rel="noopener">Aprender com Laís</a>
->>>>>>> 5a8892b180e27847584d01db921abbe350a75775
       </div>
     </div>
   </div>
@@ -770,8 +848,8 @@
   const nav = document.getElementById('nav');
   const backdrop = document.getElementById('navBackdrop');
   let scrollY = 0;
-  function openMenu() { scrollY = window.scrollY; nav.classList.add('open'); backdrop.classList.add('open'); toggle.setAttribute('aria-expanded', true); document.body.style.cssText = `overflow:hidden;position:fixed;top:-${scrollY}px;width:100%`; }
-  function closeMenu() { nav.classList.remove('open'); backdrop.classList.remove('open'); toggle.setAttribute('aria-expanded', false); document.body.style.cssText = ''; window.scrollTo(0, scrollY); }
+  function openMenu() { scrollY = window.scrollY; nav.classList.add('open'); backdrop.classList.add('open'); nav.setAttribute('aria-hidden', 'false'); toggle.setAttribute('aria-expanded', true); document.body.style.cssText = `overflow:hidden;position:fixed;top:-${scrollY}px;width:100%`; }
+  function closeMenu() { nav.classList.remove('open'); backdrop.classList.remove('open'); nav.setAttribute('aria-hidden', 'true'); toggle.setAttribute('aria-expanded', false); document.body.style.cssText = ''; window.scrollTo(0, scrollY); }
   toggle.addEventListener('click', () => nav.classList.contains('open') ? closeMenu() : openMenu());
   nav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
   backdrop.addEventListener('click', closeMenu);

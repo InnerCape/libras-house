@@ -221,11 +221,11 @@
       <img src="logo.jpg" alt="Logo Libras House" />
       <span class="logo-text">Libras <em>House</em></span>
     </a>
-    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav">
       <span></span><span></span><span></span>
     </button>
     <div class="nav-backdrop" id="navBackdrop"></div>
-    <nav id="nav" role="navigation">
+    <nav id="nav" role="navigation" aria-hidden="true">
       <a href="index.html">Início</a>
       <a href="cursos.html">Cursos</a>
       <a href="contato.html" class="active">Contato</a>
@@ -399,8 +399,8 @@
   const nav = document.getElementById('nav');
   const backdrop = document.getElementById('navBackdrop');
   let scrollY = 0;
-  function openMenu() { scrollY = window.scrollY; nav.classList.add('open'); backdrop.classList.add('open'); toggle.setAttribute('aria-expanded', true); document.body.style.cssText = `overflow:hidden;position:fixed;top:-${scrollY}px;width:100%`; }
-  function closeMenu() { nav.classList.remove('open'); backdrop.classList.remove('open'); toggle.setAttribute('aria-expanded', false); document.body.style.cssText = ''; window.scrollTo(0, scrollY); }
+  function openMenu() { scrollY = window.scrollY; nav.classList.add('open'); backdrop.classList.add('open'); nav.setAttribute('aria-hidden', 'false'); toggle.setAttribute('aria-expanded', true); document.body.style.cssText = `overflow:hidden;position:fixed;top:-${scrollY}px;width:100%`; }
+  function closeMenu() { nav.classList.remove('open'); backdrop.classList.remove('open'); nav.setAttribute('aria-hidden', 'true'); toggle.setAttribute('aria-expanded', false); document.body.style.cssText = ''; window.scrollTo(0, scrollY); }
   toggle.addEventListener('click', () => nav.classList.contains('open') ? closeMenu() : openMenu());
   nav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
   backdrop.addEventListener('click', closeMenu);

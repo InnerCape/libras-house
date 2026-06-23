@@ -383,13 +383,21 @@ nav a.nav-cta:hover { background: var(--teal-dark); }
   background: var(--white);
   border: 1px solid rgba(42,191,191,0.2);
   border-radius: var(--radius);
-  /* Taller on mobile for tap comfort */
+  /* Keep cards square on mobile */
   padding: 16px 14px;
   transition: var(--transition);
+  aspect-ratio: 1 / 1;
+  min-height: 120px;
 }
 .feature-item:active { transform: scale(0.98); }
 @media (min-width: 900px) {
-  .feature-item { background: transparent; border: none; padding: 0; }
+  .feature-item {
+    background: transparent;
+    border: none;
+    padding: 0;
+    aspect-ratio: auto;
+    min-height: 0;
+  }
 }
 .feature-icon {
   font-size: 1.9rem;
@@ -673,12 +681,96 @@ body { padding-bottom: 0; }
 }
 
 /* ── Testimonial images: consistent aspect ratio ── */
+/* ── About (Quem somos): quadros/cards quadrados ── */
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.about-card {
+  background: var(--white);
+  border: 1px solid rgba(91,123,168,0.25);
+  border-radius: var(--radius-lg);
+  padding: 22px 18px;
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+  box-shadow: 0 12px 30px rgba(91,123,168,0.08);
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 0;
+}
+
+/* ── Shared card baseline across the site (mobile-first) ── */
+.about-card,
+.instructor-card,
+.tcard {
+  border-radius: var(--radius-lg);
+}
+
+.about-card:hover,
+.instructor-card:hover,
+.tcard:hover {
+  transform: translateY(-4px);
+}
+
+
+.about-card:hover {
+  border-color: var(--blue-post);
+  box-shadow: 0 16px 40px rgba(91,123,168,0.18);
+  transform: translateY(-4px);
+}
+
+.about-icon { font-size: 2rem; margin-bottom: 12px; line-height: 1; }
+.about-card h3 { font-size: 1.06rem; font-weight: 800; margin-bottom: 10px; line-height: 1.2; }
+.about-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.65; margin: 0; }
+
+/* keep same layout intent on small screens */
+@media (max-width: 900px) {
+  .about-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .about-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+  /* Reduce height + remove unnecessary empty vertical space */
+  .about-card {
+    aspect-ratio: auto;
+    min-height: 0;
+    padding: 16px 16px;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+  .about-card h3 { margin-bottom: 6px; font-size: 1.02rem; }
+  .about-card p { line-height: 1.6; font-size: 0.9rem; }
+
+
 .tcard img {
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   width: 100%;
   border-radius: var(--radius);
 }
+
+/* Equal-height testimonials cards */
+.tcard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.tcard p {
+  margin-top: auto;
+  font-style: italic;
+}
+
+
 
 /* ── CTA banner text: tighter on phones ── */
 @media (max-width: 479px) {
